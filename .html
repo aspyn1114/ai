@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아이 키우기 (현실 교육 열풍 잔혹사 - 초월 융합 완전판)</title>
+    <style>
+        :root {
+            --bg-color: #f5f6fa;
+            --card-bg: #ffffff;
+            --text-main: #2f3640;
+            --primary: #2c3e50;
+            --accent: #e67e22;
+        }
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 640px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            padding: 25px;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: #2f3640;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 16px;
+            color: #fff;
+            background: var(--primary);
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .stat-box {
+            background: #f8f9fa;
+            border: 1px solid #f1f2f6;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .progress-bar {
+            background: #dcdde1;
+            border-radius: 6px;
+            height: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .fill-kor { background: #ff7675; }
+        .fill-math { background: #74b9ff; }
+        .fill-eng { background: #ffeaa7; }
+        .fill-tech { background: #a29bfe; }
+        .fill-art { background: #fd79a8; }
+        .fill-pe { background: #55efc4; }
+        .fill-social { background: #fab1a0; }
+        .fill-create { background: #81ecec; }
+        .fill-hist { background: #eccc68; }
+        .fill-ethics { background: #7bed9f; }
+
+        .log-box {
+            background: #2f3640;
+            color: #f5f6fa;
+            min-height: 120px;
+            border-radius: 10px;
+            padding: 18px;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            white-space: pre-line;
+            border-left: 5px solid var(--accent);
+        }
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin: 18px 0 8px 0;
+            border-left: 4px solid var(--accent);
+            padding-left: 8px;
+            color: #2c3e50;
+        }
+        .btn-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            border: none;
+            color: white;
+            padding: 12px 6px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            padding-left: 12px;
+        }
+        button:hover { opacity: 0.9; }
+        
+        .btn-core { background: #2ecc71; color: #fff; }
+        .btn-future { background: #3498db; color: #fff; }
+        .btn-society { background: #9b59b6; color: #fff; }
+        .btn-rest { background: #e74c3c; color: #fff; }
+        
+        #restart-btn {
+            width: 100%;
+            background: #2f3640;
+            color: white;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>아이 키우기 (초월 융합 완전판)</h1>
+    <div id="turn-info" class="subtitle">나이: 8세 (1/6 턴)</div>
+
+    <div class="stats-grid">
+        <div class="stat-box"><div class="stat-header"><span>📚 국어/문해력</span><span id="val-kor">15</span></div><div class="progress-bar"><div id="bar-kor" class="progress-fill fill-kor"></div></div></div>
+        <div class="stat-box"><div class="stat-header"><span>📐 수학/논리력</span><span id="val-math">15</span></div><div class="progress-bar"><div id="bar-math" class="progress-fill fill-math"></div></div></div>
+        <div class="stat-box"><div class="stat-header"><span>🔤 영어/글로벌</span><span id="val-eng">15</span></div><div class="progress-bar"><div id="bar-eng" class="progress-fill fill-eng"></div></div></div>
+        <div class="stat-box"><div class="stat-header"><span>💻 코딩/AI기술</span><span id="val-tech">15</span></div><div class="progress-bar"><div id="bar-tech" class="progress-fill fill-tech"></div></div></div>
+        <div class="stat-box"><div class="stat-header"><span>🎨 미술/미디어</span><span id="val-art">15</span></div><div class="progress-bar"><div id="bar-art" class="progress-fill fill-art"></div></div></div>
+        <div class="stat-box"><div class="stat-header"><span>🏃 체력/피지컬</span><span id="val-pe">15</span></div><div class="progress-bar"><div id="bar-pe" class="progress-fill fill-pe"></div></div></div>
+        <div class="stat-box"><div class="stat-header"><span>🤝 사회성/리더십</span><span id="val-social">15</span></div><div class="progress-bar"><div id="bar-social" class="progress-fill fill-social"></div></div></div>
+        <div class="stat-box"><div class="stat-header"><span>💡 창의/기획력</span><span id="val-create">15</span></div><div class="progress-bar"><div id="bar-create" class="progress-fill fill-create"></div></div></div>
+        <div class="stat-box"><div class="stat-header"><span>🗿 역사/인문학</span><span id="val-hist">15</span></div><div class="progress-bar"><div id="bar-hist" class="progress-fill fill-hist"></div></div></div>
+        <div class="stat-box"><div class="stat-header"><span>⚖️ 시민의식/윤리</span><span id="val-ethics">15</span></div><div class="progress-bar"><div id="bar-ethics" class="progress-fill fill-ethics"></div></div></div>
+        <div class="stat-box" style="grid-column: span 2; background: #fff5f5;">
+            <div class="stat-header" style="color: #c0392b;"><span>🔥 스트레스 (MAX 100)</span><span id="val-stress">10</span></div>
+            <div class="progress-bar"><div id="bar-stress" class="progress-fill" style="background:#e74c3c;"></div></div>
+        </div>
+    </div>
+
+    <div id="log" class="log-box">두 가지 스탯을 모두 250점 이상 균형 있게 키우면 강력한 시너지를 내는 '초월 융합 엔딩'을 볼 수 있습니다! 목표 점수는 300점 만점입니다.</div>
+
+    <div id="action-area">
+        <div class="section-title">✍️ 기초 학업 및 인문 사교육 (스트레스 ++ / 학업 위주)</div>
+        <div class="btn-group">
+            <button class="btn-core" onclick="doAction('study_sheet')">📝 눈높이·구몬 연산 학습지</button>
+            <button class="btn-core" onclick="doAction('kor_academy')">📖 동네 독서논술 학원 등록</button>
+            <button class="btn-core" onclick="doAction('math_deep')">📐 대치동 황소 수학 심화반</button>
+            <button class="btn-core" onclick="doAction('eng_kinder')">🔤 원어민 청담 어학원 과외</button>
+            <button class="btn-core" onclick="doAction('history_tour')">🗿 경주·박물관 역사 탐방단</button>
+            <button class="btn-core" onclick="doAction('classic_read')">📜 서울대 선정 고전 독서 전집</button>
+        </div>
+
+        <div class="section-title">🚀 미래 기술 및 경제 교육 (스트레스 + / 트렌드 반영)</div>
+        <div class="btn-group">
+            <button class="btn-future" onclick="doAction('coding_camp')">💻 스크래치 코딩 및 로봇 대회</button>
+            <button class="btn-future" onclick="doAction('shorts_edit')">🎬 유튜브 쇼츠 영상 편집 독학</button>
+            <button class="btn-future" onclick="doAction('stock_kids')">📈 어린이 경제 교실 & 주식 개설</button>
+            <button class="btn-future" onclick="doAction('invention_fair')">💡 교내 과학 발명품 대회 준비</button>
+        </div>
+
+        <div class="section-title">👥 학교 생활 및 예체능 활동 (스트레스 ± / 사회성·피지컬)</div>
+        <div class="btn-group">
+            <button class="btn-society" onclick="doAction('taekwondo')">🥋 동네 태권도장 (품새 품띠 도전)</button>
+            <button class="btn-society" onclick="doAction('soccer_club')">⚽ 주말 유소년 축구단 리그전</button>
+            <button class="btn-society" onclick="doAction('piano_art')">🎹 바이엘·체르니 피아노 학원</button>
+            <button class="btn-society" onclick="doAction('school_president')">🗣️ 전교 어린이회장 선거 출마</button>
+            <button class="btn-society" onclick="doAction('volunteer_nature')">🤝 주말 가족 유기견 봉사활동</button>
+        </div>
+
+        <div class="section-title">🧘 멘탈 케어 및 숨고르기 (스트레스 감소 / 휴식)</div>
+        <div class="btn-group">
+            <button class="btn-rest" onclick="doAction('pc_bang')">🎮 친구들과 PC방 롤 한판</button>
+            <button class="btn-rest" onclick="doAction('Han_river')">⛺ 한강 공원 텐트 피크닉</button>
+            <button class="btn-rest" onclick="doAction('disney_movie')">🍿 주말 온가족 영화 시청</button>
+            <button class="btn-rest" onclick="doAction('psychology')">🧘 아동 심리 상담 및 케어</button>
+            <button class="btn-rest" onclick="doAction('sleep_late')">🛏️ 일요일 늦잠과 휴식</button>
+        </div>
+    </div>
+
+    <button id="restart-btn" onclick="resetGame()">처음부터 다시 키우기</button>
+</div>
+
+<script>
+    let state = {
+        age: 8, turn: 1, maxTurn: 6, maxAge: 20,
+        stats: { kor: 15, math: 15, eng: 15, tech: 15, art: 15, pe: 15, social: 15, create: 15, hist: 15, ethics: 15, stress: 10 }
+    };
+
+    function updateUI() {
+        if(state.age >= state.maxAge) {
+            document.getElementById('turn-info').innerText = `최종 엔딩 정산`;
+        } else {
+            document.getElementById('turn-info').innerText = `나이: ${state.age}세 (${state.turn}/${state.maxTurn} 턴)`;
+        }
+        for (let key in state.stats) {
+            document.getElementById(`val-${key}`).innerText = state.stats[key];
+            let maxRef = (key === 'stress') ? 100 : 300;
+            document.getElementById(`bar-${key}`).style.width = `${Math.min((state.stats[key]/maxRef)*100, 100)}%`;
+        }
+    }
+
+    function doAction(action) {
+        if (state.age >= state.maxAge) return;
+        let logMsg = "";
+        
+        const restActions = ['pc_bang', 'Han_river', 'disney_movie', 'psychology', 'sleep_late'];
+
+        if (state.stats.stress >= 100 && restActions.indexOf(action) === -1) {
+            state.stats.stress = Math.max(0, state.stats.stress - 40);
+            logMsg = "🚨 [학업 스트레스 폭발]\n아이가 과로와 번아웃으로 드러누웠습니다! 사교육을 중단하고 한 턴 쉬어갑니다. (스트레스 -40)";
+            nextTurn(logMsg);
+            return;
+        }
+
+        switch(action) {
+            case 'study_sheet': state.stats.math += 12; state.stats.kor += 8; state.stats.stress += 6; logMsg = "📝 매일 학습지를 풀며 기초 연산력과 근성을 기릅니다."; break;
+            case 'kor_academy': state.stats.kor += 24; state.stats.create += 6; state.stats.stress += 12; logMsg = "📖 독서논술 학원에서 책을 읽고 글을 쓰며 문해력이 폭발합니다."; break;
+            case 'math_deep': state.stats.math += 26; state.stats.tech += 6; state.stats.stress += 16; logMsg = "📐 수학 심화반에서 최고난도 문제를 풀며 논리력을 단련합니다."; break;
+            case 'eng_kinder': state.stats.eng += 24; state.stats.social += 6; state.stats.stress += 12; logMsg = "🔤 원어민 과외를 통해 글로벌 프리토킹과 에세이를 마스터합니다."; break;
+            case 'history_tour': state.stats.hist += 24; state.stats.ethics += 6; state.stats.stress += 8; logMsg = "🗿 주말 박물관 역사 탐방단을 따라 인문학적 소양을 쌓습니다."; break;
+            case 'classic_read': state.stats.hist += 16; state.stats.kor += 16; state.stats.create += 6; state.stats.stress += 10; logMsg = "📜 밤마다 고전 문학 전집을 읽으며 사고의 깊이를 더합니다."; break;
+            case 'coding_camp': state.stats.tech += 26; state.stats.create += 6; state.stats.stress += 12; logMsg = "💻 블록 코딩과 로봇 키트를 다루며 컴퓨터 과학을 익힙니다."; break;
+            case 'shorts_edit': state.stats.art += 22; state.stats.create += 10; state.stats.stress += 8; logMsg = "🎬 직접 영상을 기획 및 컷편집해 숏폼 플랫폼에 업로드합니다."; break;
+            case 'stock_kids': state.stats.math += 12; state.stats.create += 16; state.stats.social += 6; state.stats.stress += 10; logMsg = "📈 어린이 경제 교실에서 자본주의와 복리, 모의 투자를 배웁니다."; break;
+            case 'invention_fair': state.stats.create += 22; state.stats.tech += 8; state.stats.stress += 12; logMsg = "💡 불편을 해결할 독창적인 아이디어로 발명대회를 준비합니다."; break;
+            case 'taekwondo': state.stats.pe += 22; state.stats.social += 6; state.stats.stress += 4; logMsg = "🥋 태권도장에서 땀을 흘리며 건강한 피지컬과 품띠를 땁니다."; break;
+            case 'soccer_club': state.stats.pe += 24; state.stats.social += 10; state.stats.stress += 6; logMsg = "⚽ 유소년 축구단 리그에 출전해 팀워크와 리더십을 배웁니다."; break;
+            case 'piano_art': state.stats.art += 24; state.stats.create += 6; state.stats.stress += 8; logMsg = "🎹 피아노 명곡들을 연주하며 감성과 절대음감을 훈련합니다."; break;
+            case 'school_president': state.stats.social += 26; state.stats.kor += 6; state.stats.stress += 10; logMsg = "🗣️ 학교 임원 선거에 출마해 대중을 사로잡는 리더십을 증명합니다."; break;
+            case 'volunteer_nature': state.stats.ethics += 26; state.stats.social += 8; state.stats.stress += 4; logMsg = "🤝 유기견 보호소에서 사료를 주며 생명 존중과 이타심을 배웁니다."; break; // 오타 수정 완료
+            case 'pc_bang': state.stats.stress = Math.max(0, state.stats.stress - 30); state.stats.social += 8; logMsg = "🎮 친구들과 PC방에서 게임 연승을 달립니다. 스트레스 해소!"; break;
+            case 'Han_river': state.stats.stress = Math.max(0, state.stats.stress - 35); state.stats.pe += 6; state.stats.create += 4; logMsg = "⛺ 한강 둔치에서 강바람을 맞으며 라면을 먹고 피크닉을 즐깁니다."; break;
+            case 'disney_movie': state.stats.stress = Math.max(0, state.stats.stress - 25); state.stats.art += 6; logMsg = "🍿 가족들과 영화를 보며 따뜻하고 감성적인 시간을 보냅니다."; break;
+            case 'psychology': state.stats.stress = Math.max(0, state.stats.stress - 45); state.stats.ethics += 6; logMsg = "🧘 심리 상담을 통해 마음 속 불안을 비우고 케어를 받습니다."; break;
+            case 'sleep_late': state.stats.stress = Math.max(0, state.stats.stress - 40); state.stats.pe += 4; logMsg = "🛏️ 일요일에 늦잠을 푹 자고 늘어지며 온전한 휴식을 취합니다."; break;
+        }
+
+        for(let key in state.stats) { 
+            if(key !== 'stress') state.stats[key] = Math.min(300, Math.max(0, state.stats[key])); 
+        }
+        state.stats.stress = Math.min(100, Math.max(0, state.stats.stress));
+        nextTurn(logMsg);
+    }
+
+    function nextTurn(logMsg) {
+        state.turn++;
+        if (state.turn > state.maxTurn) { state.turn = 1; state.age++; }
+        if (state.age >= state.maxAge) { showEnding(logMsg); } else { document.getElementById('log').innerText = logMsg; updateUI(); }
+    }
+
+    function showEnding(lastMsg) {
+        updateUI();
+        document.getElementById('action-area').style.display = 'none';
+        document.getElementById('restart-btn').style.display = 'block';
+
+        let s = state.stats;
+        let title = "";
+        let desc = "";
+
+        let allStats = [s.kor, s.math, s.eng, s.tech, s.art, s.pe, s.social, s.create, s.hist, s.ethics];
+        let minStat = Math.min(...allStats);
+        let maxStat = Math.max(...allStats);
+        let isBalanced = (maxStat - minStat) <= 45; 
+
+        let isFusion = true;
+
+        if (s.kor >= 250 && s.tech >= 250) {
+            title = "🌌 글로벌 초대형 AI 언어모델(LLM) 자연어 처리 총괄 석학";
+            desc = "융합 조건: [국어 250+ & 코딩 250+]\n인간 언어의 본질을 꿰뚫는 문해력과 기계어 제어력이 결합했습니다. 인류의 사상과 감정을 완벽히 이해하고 대화하는 지능형 AI 모델의 핵심 코어를 설계한 인공지능 시대의 주역입니다.";
+        } else if (s.math >= 250 && s.art >= 250) {
+            title = "🪐 메타버스·가상 우주 시공간 테크-아트 수석 아키텍트";
+            desc = "융합 조건: [수학 250+ & 미술 250+]\n우주의 차원을 계산하는 수학적 지성과 가상의 세상을 시각화하는 예술적 미감이 융합되었습니다. 3차원 공간 복잡도를 재설계하여 전 세계 인류가 상주하는 차세대 메타버스를 창조한 디지털 거장입니다.";
+        } else if (s.eng >= 250 && s.create >= 250) {
+            title = "💸 실리콘밸리 글로벌 테크 벤처캐피탈(VC) 창업주";
+            desc = "융합 조건: [영어 250+ & 창의 250+]\n전 세계 자본가들과 거침없이 소통하는 언어 역량과, 세상을 바꿀 스타트업을 알아보는 직관이 결합했습니다. 혁신적인 아이디어 하나에 수천억의 펀딩을 이끄는 글로벌 자본 시장의 큰손이 됩니다.";
+        } else if (s.tech >= 250 && s.art >= 250) {
+            title = "🕹️ 전 세계 1억 다운로드 신화, 메가히트 인디 게임 1인 개발자";
+            desc = "융합 조건: [코딩 250+ & 미술 250+]\n서버와 알고리즘을 혼자 구축하는 기술력에 심금을 울리는 화려한 영상미 그래픽 능력까지 갖췄습니다. 대기업의 자본력 없이 오직 자신만의 기술과 감성으로 세계 게임 차트를 석권하는 신화를 씁니다.";
+        } else if (s.pe >= 250 && s.social >= 250) {
+            title = "🏆 대한민국 올림픽 국가대표팀 총감독 (금메달 메이커)";
+            desc = "융합 조건: [체육 250+ & 사회성 250+]\n선수들의 신체적 한계를 극한까지 끌어올리는 피지컬 메커니즘과, 수십 명의 개성 강한 스타 선수들의 마음을 하나로 묶는 대인 통솔력을 겸비했습니다. 올림픽 역사상 최다 메달을 휩쓸며 국민적 영웅이 됩니다.";
+        } else if (s.hist >= 250 && s.ethics >= 250) {
+            title = "🏛️ 국제기구 UN 산하 세계문화유산 및 인류 분쟁 조정위원회 의장";
+            desc = "융합 조건: [역사 250+ & 윤리 250+]\n인류가 저질러 온 수천 년 역사적 과오와 문명의 궤적을 꿰뚫는 눈, 그리고 절대적인 정의감을 가졌습니다. 국가 간의 역사 왜곡과 도덕적 난제, 영토 분쟁을 칼날 같은 논리와 양심으로 해결하는 세계의 어른입니다.";
+        } else if (s.math >= 250 && s.tech >= 250) {
+            title = "🔐 양자 컴퓨터 기반 차세대 국가 보안 인프라 암호학자";
+            desc = "융합 조건: [수학 250+ & 코딩 250+]\n고등 수학의 기하학적 난제를 코드로 구현해 내는 최고의 이공계 엘리트입니다. 기존의 모든 방화벽을 무력화하는 양자 특이점 시대에, 대한민국 정보망 전체를 수호하는 대체 불가능한 국가 보안의 최고 권위자가 됩니다.";
+        } else if (s.kor >= 250 && s.hist >= 250) {
+            title = "📚 문명 타임라인의 기록자 / 인류학적 대하소설 거장";
+            desc = "융합 조건: [국어 250+ & 역사 250+]\n과거의 숨결을 그대로 복원하는 사료 해석 능력에, 이를 한 편의 웅장한 대서사시로 풀어내는 필력이 만났습니다. 인류의 역사 전체를 관통하는 명작을 완성하여 후세 교과서에 이름을 남기는 문학계의 살아있는 거장이 됩니다.";
+        } else if (s.eng >= 250 && s.social >= 250) {
+            title = "🎙️ 전 세계 분쟁을 멈추는 글로벌 정상회담 수석 중재 외교관";
+            desc = "융합 조건: [영어 250+ & 사회성 250+]\n단순한 번역을 넘어 상대방의 국가적 문화와 정서를 녹여내는 고급 스피치, 그리고 사람의 마음을 무장해제 시키는 최고의 네트워킹 능력이 만났습니다. 총칼 없는 외교 전선에서 국익을 완벽하게 사수해 냅니다.";
+        } else if (s.create >= 250 && s.art >= 250) {
+            title = "🎨 전 세계 트렌드를 선도하는 글로벌 미디어 아트 디렉터";
+            desc = "융합 조건: [창의 250+ & 미술 250+]\n세상에 없던 개념을 제시하는 기획력과 이를 예술적 비주얼로 구현하는 능력이 만났습니다. 파리, 뉴욕 등 세계 최대 규모의 팝업과 전시 공간 전체를 총괄 디자인하는 문화 콘텐츠계의 트렌드 세터가 됩니다.";
+        } else if (s.math >= 250 && s.ethics >= 250) {
+            title = "⚖️ 인공지능 윤리 법령 제정 위원회 수석 과학자";
+            desc = "융합 조건: [수학 250+ & 윤리 250+]\nAI 알고리즘의 도덕성을 수식과 계량으로 검증해 내는 학자입니다. 기술 폭주 속에서 인간성을 지키기 위한 글로벌 기술 표준 법안을 만들어 빌 게이츠 등 세계 거물들의 찬사를 받습니다.";
+        } else if (s.pe >= 250 && s.tech >= 250) {
+            title = "🦾 바이오닉 인공 신체 및 미래형 웨어러블 슈트 수석 개발자";
+            desc = "융합 조건: [체육 250+ & 코딩 250+]\n인간 근육과 신경망의 움직임을 완벽히 이해하는 신체 능력과 로봇 제어 공학이 만났습니다. 하반신 마비 환자를 다시 걷게 하고 인간의 피지컬을 10배 강화하는 슈트를 개발한 미래 공학의 선구자입니다.";
+        } else {
+            isFusion = false;
+        }
+        
+        if (!isFusion) {
+            if (isBalanced && minStat >= 200) {
+                title = "🌌 범지구적 문명 통합 연방 의장 (초월적 신인류)";
+                desc = "발동 조건: [모든 능력치 균등하게 200~300 사이]\n인문학, 과학기술, 예술, 체력, 윤리까지 완벽히 정점에 도달한 신인류입니다. 갈등을 영원히 종식시키는 지구 연방 의장으로 추대됩니다.";
+            } else if (isBalanced && minStat >= 100) {
+                title = "🏛️ 국가 미래전략 수석 마스터 보좌관";
+                desc = "발동 조건: [모든 능력치 균등하게 100~200 사이]\n모든 분야를 완벽히 통섭하여 정책을 설계하는 대한민국 최고 컨트롤타워의 수장입니다.";
+            } else if (isBalanced && minStat >= 45 && maxStat <= 100) {
+                title = "🏢 대기업 전략기획본부 최연소 총괄 PM";
+                desc = "발동 조건: [모든 능력치 균등하게 45~100 사이]\n기술과 소통 능력이 고르게 발달하여 초대형 프로젝트를 리드하는 완벽한 육각형 엘리트 직장인입니다.";
+            } else if (maxStat >= 300) {
+                let over300Keys = [];
+                for (let k in s) { if (k !== 'stress' && s[k] >= 300) over300Keys.push(k); }
+                
+                let winningKey = "kor";
+                let maxVal = -1;
+                over300Keys.forEach(key => { if (s[key] > maxVal) { maxVal = s[key]; winningKey = key; } });
+
+                if (winningKey === 'kor') { title = "👑 인류 역사상 최고의 대문호"; desc = "국어 300 만점 : 인간의 영혼을 해체하고 문자 그대로 재구성하는 걸작을 남겨 노벨 문학상 수상자가 됩니다."; }
+                else if (winningKey === 'math') { title = "🌌 패러다임을 바꾼 세기의 천재 물리학자"; desc = "수학 300 만점 : 아인슈타인의 계보를 잇는 우주의 근본 방정식을 증명해 과학을 200년 앞당겼습니다."; }
+                else if (winningKey === 'eng') { title = "🎙️ 범지구적 외교 수장 / UN 사무총장"; desc = "영어 300 만점 : 모든 국가의 외교적 분쟁을 말 한마디로 종식시키는 범지구적 권위자가 되었습니다."; }
+                else if (winningKey === 'tech') { title = "🌐 인류 최초의 초지능(AGI) 독점 개발자"; desc = "코딩 300 만점 : 완전한 인공지능 특이점을 세계 최초로 설계하고 제어하여 최강의 테크 권력자가 됩니다."; }
+                else if (winningKey === 'art') { title = "🎨 시대를 계몽하는 세계적 미디어 아트 거장"; desc = "미술 300 만점 : 뉴욕, 런던, 파리 미술관 전체가 당신의 디지털 아트를 전시하기 위해 매일 경쟁합니다."; }
+                else if (winningKey === 'pe') { title = "⚡ 인류 신체 한계를 개척한 스포츠 영웅"; desc = "체육 300 만점 : 생물학적 신체 한계를 깨부수고 모든 종목에서 파괴적인 퍼포먼스로 전설이 되었습니다."; }
+                else if (winningKey === 'social') { title = "🤝 지구 연방 위대한 정신적 지도자"; desc = "사회성 300 만점 : 전 인류의 마음을 하나로 묶는 대통합 리더십을 발휘하여 전 세계의 반목을 잠재웁니다."; }
+                else if (winningKey === 'create') { title = "💡 시가총액 5,000조 유니콘 기업의 혁신가"; desc = "창의/기획 300 만점 : 세상에 존재하지 않던 혁명적 문명 라이프스타일 인프라를 설계했습니다."; }
+                else if (winningKey === 'hist') { title = "🏛️ 문명의 궤적을 꿰뚫은 역사적 대현자"; desc = "역사 300 만점 : 국가의 번영 and 흥망성쇠를 예언하고 조율하는 현대 최고 인문학의 대현자입니다."; }
+                else if (winningKey === 'ethics') { title = "⚖️ 현대의 살아있는 성자 (노벨 평화상 수상자)"; desc = "윤리 300 만점 : 인류 사회의 도덕적 기준과 정의를 수십 단계 끌어올린 시대의 살아있는 양심입니다."; }
+            } else if (s.kor >= 110) { title = "✍️ 정통 문학계 순수문학 소설가"; desc = "단일 국어 특화: 깊이 있는 텍스트 하나로 시대의 아픔과 본질을 완벽하게 담아내는 문학가입니다."; }
+            else if (s.math >= 110) { title = "📐 국립 고등과학원 순수수학 종신 교수"; desc = "단일 수학 특화: 풀리지 않던 우주의 수학적 기하학 난제를 해결하는 학자입니다."; }
+            else if (s.eng >= 110) { title = "🎙️ 국가외교안보회의 청두 수석 동시통역관"; desc = "단일 영어 특화: 일급 국가 보안 정상 회담을 최일선에서 전담 조율하는 글로벌 언어 스페셜리스트입니다."; }
+            else if (s.tech >= 110) { title = "💻 대규모 트래픽 분산 시스템 코어 백엔드 아키텍트"; desc = "단일 코딩 특화: 대한민국 주요 국가 기간망 서버 인프라를 홀로 방어하고 구축해 내는 기술 장인입니다."; }
+            else if (s.art >= 110) { title = "🎼 정통 오케스트라 상임 마에스트로 / 예술가"; desc = "단일 예술 특화: 대중적 트렌드와 타협하지 않는 압도적 예술 아우라를 지닌 고고한 예술가입니다."; }
+            else if (s.pe >= 110) { title = "🏋️ 철인 3종 경기 세계 챔피언 및 국가대표"; desc = "단일 체육 특화: 매일 인간의 한계를 시험하는 지옥의 신체 단련 루틴을 견뎌낸 전사입니다."; }
+            else if (s.social >= 110) { title = "🤝 국내 최대 비영리 자선 구호 재단 상임 의장"; desc = "단일 사회성 특화: 타인의 마음을 뒤흔드는 네트워킹으로 선의 행동을 이끌어내는 리더입니다."; }
+            else if (s.create >= 110) { title = "💡 전 세계 로열티로 살아가는 독립 발명왕"; desc = "단일 창의 특화: 남들이 비웃는 엉뚱한 생각 속에서 글로벌 혁신 특허를 수백 개 발견해 낸 발명가입니다."; }
+            else if (s.hist >= 110) { title = "🏺 국립 인문역사 문화재 보존 과학 연구소장"; desc = "단일 역사 특화: 유물 한 조각, 사료 한 줄에 담긴 조상들의 숨결을 해독하는 역사학자입니다."; }
+            else if (s.ethics >= 110) { title = "⚖️ 정부 직속 부패척결위원회 공익 옴부즈맨"; desc = "단일 윤리 특화: 어떠한 외압에도 굴하지 않는 도덕성으로 권력층의 비리를 폭로하고 정화하는 파수꾼입니다."; }
+            else if (s.kor >= 70 && s.math >= 70 && s.tech >= 70 && s.social >= 70) {
+                title = "🏢 대기업 핵심 전략본부 기획 팀장";
+                desc = "융합 소양: [주요 과목 전체 70 균형]\n문해력, 논리, 기술, 네트워킹을 갖춰 임원 코스를 안정적으로 밟는 엘리트 직장인입니다.";
+            } else if (s.kor < 30 && s.math < 30 && s.tech < 30) {
+                title = "🛋️ 유유자적 삶을 즐기는 미니멀리스트 자유인";
+                desc = "무한 경쟁 시스템을 떠나, 내가 감당할 수 있는 만큼만 소소하게 행복을 사수하는 현대의 자발적 한량입니다.";
+            } else {
+                title = "👔 스마트 워라밸 직장인";
+                desc = "각 분야의 기초 소양을 고루 갖춰 평일에는 스마트하게 일하고, 주말에는 자신만의 여가를 즐기는 사회의 든든한 주역입니다.";
+            }
+        }
+
+        let finalReport = `🎉 성장 완료! 최종 정산 리포트 🎉\n\n${lastMsg}\n\n-----------------------------\n\n✨ 만 20세 아이의 최종 결과: \n[ ${title} ]\n\n${desc}`;
+        document.getElementById('log').innerText = finalReport;
+    }
+
+    function resetGame() {
+        state = { age: 8, turn: 1, maxTurn: 6, maxAge: 20, stats: { kor: 15, math: 15, eng: 15, tech: 15, art: 15, pe: 15, social: 15, create: 15, hist: 15, ethics: 15, stress: 10 } };
+        document.getElementById('action-area').style.display = 'block';
+        document.getElementById('restart-btn').style.display = 'none';
+        document.getElementById('log').innerText = "새로운 학기가 시작되었습니다. 아이의 사교육 로드맵을 다시 설계하세요!";
+        updateUI();
+    }
+
+    // 초기 실행 시 UI 업데이트를 진행하여 게이지바가 올바르게 채워지도록 설정
+    window.onload = function() {
+        updateUI();
+    };
+</script>
+
+</body>
+</html>
