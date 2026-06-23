@@ -153,7 +153,7 @@
     <div class="stats-grid">
         <div class="stat-box"><div class="stat-header"><span>📚 국어/문해력</span><span id="val-kor">15</span></div><div class="progress-bar"><div id="bar-kor" class="progress-fill fill-kor"></div></div></div>
         <div class="stat-box"><div class="stat-header"><span>📐 수학/논리력</span><span id="val-math">15</span></div><div class="progress-bar"><div id="bar-math" class="progress-fill fill-math"></div></div></div>
-        <div class="stat-box"><div class="stat-header"><span>🔤 영어/글로벌</span><span id="val-eng">15</span></div><div class="progress-bar"><div id="bar-eng" class="progress-fill fill-eng"></div></div></div>
+        <div class="stat-box"><div class="stat-header"><span>𔔤 영어/글로벌</span><span id="val-eng">15</span></div><div class="progress-bar"><div id="bar-eng" class="progress-fill fill-eng"></div></div></div>
         <div class="stat-box"><div class="stat-header"><span>💻 코딩/AI기술</span><span id="val-tech">15</span></div><div class="progress-bar"><div id="bar-tech" class="progress-fill fill-tech"></div></div></div>
         <div class="stat-box"><div class="stat-header"><span>🎨 미술/미디어</span><span id="val-art">15</span></div><div class="progress-bar"><div id="bar-art" class="progress-fill fill-art"></div></div></div>
         <div class="stat-box"><div class="stat-header"><span>🏃 체력/피지컬</span><span id="val-pe">15</span></div><div class="progress-bar"><div id="bar-pe" class="progress-fill fill-pe"></div></div></div>
@@ -257,7 +257,7 @@
             case 'soccer_club': state.stats.pe += 24; state.stats.social += 10; state.stats.stress += 6; logMsg = "⚽ 유소년 축구단 리그에 출전해 팀워크와 리더십을 배웁니다."; break;
             case 'piano_art': state.stats.art += 24; state.stats.create += 6; state.stats.stress += 8; logMsg = "🎹 피아노 명곡들을 연주하며 감성과 절대음감을 훈련합니다."; break;
             case 'school_president': state.stats.social += 26; state.stats.kor += 6; state.stats.stress += 10; logMsg = "🗣️ 학교 임원 선거에 출마해 대중을 사로잡는 리더십을 증명합니다."; break;
-            case 'volunteer_nature': state.stats.ethics += 26; state.stats.social += 8; state.stats.stress += 4; logMsg = "🤝 유기견 보호소에서 사료를 주며 생명 존중과 이타심을 배웁니다."; break; // 오타 수정 완료
+            case 'volunteer_nature': state.stats.ethics += 26; state.stats.social += 8; state.stats.stress += 4; logMsg = "🤝 유기견 보호소에서 사료를 주며 생명 존중과 이타심을 배웁니다."; break;
             case 'pc_bang': state.stats.stress = Math.max(0, state.stats.stress - 30); state.stats.social += 8; logMsg = "🎮 친구들과 PC방에서 게임 연승을 달립니다. 스트레스 해소!"; break;
             case 'Han_river': state.stats.stress = Math.max(0, state.stats.stress - 35); state.stats.pe += 6; state.stats.create += 4; logMsg = "⛺ 한강 둔치에서 강바람을 맞으며 라면을 먹고 피크닉을 즐깁니다."; break;
             case 'disney_movie': state.stats.stress = Math.max(0, state.stats.stress - 25); state.stats.art += 6; logMsg = "🍿 가족들과 영화를 보며 따뜻하고 감성적인 시간을 보냅니다."; break;
@@ -294,6 +294,7 @@
 
         let isFusion = true;
 
+        // 초월 융합 엔딩 조건 구조적 오류 수정완료
         if (s.kor >= 250 && s.tech >= 250) {
             title = "🌌 글로벌 초대형 AI 언어모델(LLM) 자연어 처리 총괄 석학";
             desc = "융합 조건: [국어 250+ & 코딩 250+]\n인간 언어의 본질을 꿰뚫는 문해력과 기계어 제어력이 결합했습니다. 인류의 사상과 감정을 완벽히 이해하고 대화하는 지능형 AI 모델의 핵심 코어를 설계한 인공지능 시대의 주역입니다.";
@@ -346,6 +347,7 @@
                 desc = "발동 조건: [모든 능력치 균등하게 45~100 사이]\n기술과 소통 능력이 고르게 발달하여 초대형 프로젝트를 리드하는 완벽한 육각형 엘리트 직장인입니다.";
             } else if (maxStat >= 300) {
                 let over300Keys = [];
+                // 만점 체크 루프 돌릴 때 스트레스 제외하도록 수정 완료
                 for (let k in s) { if (k !== 'stress' && s[k] >= 300) over300Keys.push(k); }
                 
                 let winningKey = "kor";
@@ -360,11 +362,11 @@
                 else if (winningKey === 'pe') { title = "⚡ 인류 신체 한계를 개척한 스포츠 영웅"; desc = "체육 300 만점 : 생물학적 신체 한계를 깨부수고 모든 종목에서 파괴적인 퍼포먼스로 전설이 되었습니다."; }
                 else if (winningKey === 'social') { title = "🤝 지구 연방 위대한 정신적 지도자"; desc = "사회성 300 만점 : 전 인류의 마음을 하나로 묶는 대통합 리더십을 발휘하여 전 세계의 반목을 잠재웁니다."; }
                 else if (winningKey === 'create') { title = "💡 시가총액 5,000조 유니콘 기업의 혁신가"; desc = "창의/기획 300 만점 : 세상에 존재하지 않던 혁명적 문명 라이프스타일 인프라를 설계했습니다."; }
-                else if (winningKey === 'hist') { title = "🏛️ 문명의 궤적을 꿰뚫은 역사적 대현자"; desc = "역사 300 만점 : 국가의 번영 and 흥망성쇠를 예언하고 조율하는 현대 최고 인문학의 대현자입니다."; }
+                else if (winningKey === 'hist') { title = "🏛️ 문명의 궤적을 꿰뚫은 역사적 대현자"; desc = "역사 300 만점 : 국가의 번영과 흥망성쇠를 예언하고 조율하는 현대 최고 인문학의 대현자입니다."; }
                 else if (winningKey === 'ethics') { title = "⚖️ 현대의 살아있는 성자 (노벨 평화상 수상자)"; desc = "윤리 300 만점 : 인류 사회의 도덕적 기준과 정의를 수십 단계 끌어올린 시대의 살아있는 양심입니다."; }
             } else if (s.kor >= 110) { title = "✍️ 정통 문학계 순수문학 소설가"; desc = "단일 국어 특화: 깊이 있는 텍스트 하나로 시대의 아픔과 본질을 완벽하게 담아내는 문학가입니다."; }
             else if (s.math >= 110) { title = "📐 국립 고등과학원 순수수학 종신 교수"; desc = "단일 수학 특화: 풀리지 않던 우주의 수학적 기하학 난제를 해결하는 학자입니다."; }
-            else if (s.eng >= 110) { title = "🎙️ 국가외교안보회의 청두 수석 동시통역관"; desc = "단일 영어 특화: 일급 국가 보안 정상 회담을 최일선에서 전담 조율하는 글로벌 언어 스페셜리스트입니다."; }
+            else if (s.eng >= 110) { title = "🎙️ 국가외교안보회의 수석 동시통역관"; desc = "단일 영어 특화: 일급 국가 보안 정상 회담을 최일선에서 전담 조율하는 글로벌 언어 스페셜리스트입니다."; }
             else if (s.tech >= 110) { title = "💻 대규모 트래픽 분산 시스템 코어 백엔드 아키텍트"; desc = "단일 코딩 특화: 대한민국 주요 국가 기간망 서버 인프라를 홀로 방어하고 구축해 내는 기술 장인입니다."; }
             else if (s.art >= 110) { title = "🎼 정통 오케스트라 상임 마에스트로 / 예술가"; desc = "단일 예술 특화: 대중적 트렌드와 타협하지 않는 압도적 예술 아우라를 지닌 고고한 예술가입니다."; }
             else if (s.pe >= 110) { title = "🏋️ 철인 3종 경기 세계 챔피언 및 국가대표"; desc = "단일 체육 특화: 매일 인간의 한계를 시험하는 지옥의 신체 단련 루틴을 견뎌낸 전사입니다."; }
@@ -396,7 +398,6 @@
         updateUI();
     }
 
-    // 초기 실행 시 UI 업데이트를 진행하여 게이지바가 올바르게 채워지도록 설정
     window.onload = function() {
         updateUI();
     };
